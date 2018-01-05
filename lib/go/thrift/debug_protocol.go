@@ -21,6 +21,7 @@ package thrift
 
 import (
 	"log"
+	"context"
 )
 
 type TDebugProtocol struct {
@@ -258,8 +259,8 @@ func (tdp *TDebugProtocol) Skip(fieldType TType) (err error) {
 	log.Printf("%sSkip(fieldType=%#v) (err=%#v)", tdp.LogPrefix, fieldType, err)
 	return
 }
-func (tdp *TDebugProtocol) Flush() (err error) {
-	err = tdp.Delegate.Flush()
+func (tdp *TDebugProtocol) Flush(ctx context.Context) (err error) {
+	err = tdp.Delegate.Flush(ctx)
 	log.Printf("%sFlush() (err=%#v)", tdp.LogPrefix, err)
 	return
 }

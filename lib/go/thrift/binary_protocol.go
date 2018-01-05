@@ -26,6 +26,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"context"
 )
 
 type TBinaryProtocol struct {
@@ -457,8 +458,8 @@ func (p *TBinaryProtocol) ReadBinary() ([]byte, error) {
 	return buf, NewTProtocolException(err)
 }
 
-func (p *TBinaryProtocol) Flush() (err error) {
-	return NewTProtocolException(p.trans.Flush())
+func (p *TBinaryProtocol) Flush(ctx context.Context) (err error) {
+	return NewTProtocolException(p.trans.Flush(ctx))
 }
 
 func (p *TBinaryProtocol) Skip(fieldType TType) (err error) {

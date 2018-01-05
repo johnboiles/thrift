@@ -24,6 +24,7 @@ import (
 	"net"
 	"strconv"
 	"testing"
+	"context"
 )
 
 const TRANSPORT_BINARY_DATA_SIZE = 4096
@@ -54,7 +55,7 @@ func TransportTest(t *testing.T, writeTrans TTransport, readTrans TTransport) {
 	if err != nil {
 		t.Fatalf("Transport %T cannot write binary data of length %d: %s", writeTrans, len(transport_bdata), err)
 	}
-	err = writeTrans.Flush()
+	err = writeTrans.Flush(context.Background())
 	if err != nil {
 		t.Fatalf("Transport %T cannot flush write of binary data: %s", writeTrans, err)
 	}
@@ -74,7 +75,7 @@ func TransportTest(t *testing.T, writeTrans TTransport, readTrans TTransport) {
 	if err != nil {
 		t.Fatalf("Transport %T cannot write binary data 2 of length %d: %s", writeTrans, len(transport_bdata), err)
 	}
-	err = writeTrans.Flush()
+	err = writeTrans.Flush(context.Background())
 	if err != nil {
 		t.Fatalf("Transport %T cannot flush write binary data 2: %s", writeTrans, err)
 	}
@@ -113,7 +114,7 @@ func TransportHeaderTest(t *testing.T, writeTrans TTransport, readTrans TTranspo
 	if err != nil {
 		t.Fatalf("Transport %T cannot write binary data of length %d: %s", writeTrans, len(transport_bdata), err)
 	}
-	err = writeTrans.Flush()
+	err = writeTrans.Flush(context.Background())
 	if err != nil {
 		t.Fatalf("Transport %T cannot flush write of binary data: %s", writeTrans, err)
 	}

@@ -9,5 +9,5 @@ type TClient interface {
 }
 
 func (p *TStandardClient) Call(ctx context.Context, method string, args, result TStruct) error {
-	return p.call(method, args, result)
+	return p.call(ctx, method, args, result)
 }
