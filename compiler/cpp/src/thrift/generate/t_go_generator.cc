@@ -2568,7 +2568,7 @@ void t_go_generator::generate_service_server(t_service* tservice) {
     f_types_ << indent() << "  oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)" << endl;
     f_types_ << indent() << "  " << x << ".Write(oprot)" << endl;
     f_types_ << indent() << "  oprot.WriteMessageEnd()" << endl;
-    f_types_ << indent() << "  oprot.Flush()" << endl;
+    f_types_ << indent() << "  oprot.Flush(ctx)" << endl;
     f_types_ << indent() << "  return false, " << x << endl;
     f_types_ << indent() << "" << endl;
     f_types_ << indent() << "}" << endl << endl;
@@ -2633,7 +2633,7 @@ void t_go_generator::generate_process_function(t_service* tservice, t_function* 
                << "\", thrift.EXCEPTION, seqId)" << endl;
     f_types_ << indent() << "  x.Write(oprot)" << endl;
     f_types_ << indent() << "  oprot.WriteMessageEnd()" << endl;
-    f_types_ << indent() << "  oprot.Flush()" << endl;
+    f_types_ << indent() << "  oprot.Flush(ctx)" << endl;
   }
   f_types_ << indent() << "  return false, err" << endl;
   f_types_ << indent() << "}" << endl << endl;
@@ -2701,7 +2701,7 @@ void t_go_generator::generate_process_function(t_service* tservice, t_function* 
                << "\", thrift.EXCEPTION, seqId)" << endl;
     f_types_ << indent() << "  x.Write(oprot)" << endl;
     f_types_ << indent() << "  oprot.WriteMessageEnd()" << endl;
-    f_types_ << indent() << "  oprot.Flush()" << endl;
+    f_types_ << indent() << "  oprot.Flush(ctx)" << endl;
   }
 
   f_types_ << indent() << "  return true, err2" << endl;
@@ -2738,7 +2738,7 @@ void t_go_generator::generate_process_function(t_service* tservice, t_function* 
                << endl;
     f_types_ << indent() << "  err = err2" << endl;
     f_types_ << indent() << "}" << endl;
-    f_types_ << indent() << "if err2 = oprot.Flush(); err == nil && err2 != nil {" << endl;
+    f_types_ << indent() << "if err2 = oprot.Flush(ctx); err == nil && err2 != nil {" << endl;
     f_types_ << indent() << "  err = err2" << endl;
     f_types_ << indent() << "}" << endl;
     f_types_ << indent() << "if err != nil {" << endl;
