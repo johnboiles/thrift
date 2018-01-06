@@ -1,8 +1,8 @@
 package thrift
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 )
 
 type TStandardClient struct {

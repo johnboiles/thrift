@@ -21,12 +21,12 @@ package thrift
 
 import (
 	"bytes"
+	"context"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
 	"math"
-	"context"
 )
 
 type TBinaryProtocol struct {

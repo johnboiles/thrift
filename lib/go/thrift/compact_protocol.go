@@ -20,11 +20,11 @@
 package thrift
 
 import (
+	"context"
 	"encoding/binary"
 	"fmt"
 	"io"
 	"math"
-	"context"
 )
 
 const (
