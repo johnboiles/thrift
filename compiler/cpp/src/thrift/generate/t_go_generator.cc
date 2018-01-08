@@ -1887,16 +1887,18 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   f_types_ << indent() << "}" << endl << endl;
 
   // Legacy constructor function
-  f_types_ << indent() << "// Deprecated: Use New" << serviceName << " instead" << endl;
+  f_types_ << indent() << "// Deprecated: Use New" << serviceName << "Client instead" << endl;
   f_types_ << indent() << "func New" << serviceName
              << "ClientFactory(t thrift.TTransport, f thrift.TProtocolFactory) *" << serviceName
              << "Client {" << endl;
   indent_up();
-  f_types_ << indent() << "return &" << serviceName << "Client";
 
   if (!extends.empty()) {
-    f_types_ << "{" << extends_field << ": " << extends_client_new << "Factory(t, f)}";
+    f_types_ << "bc := " << extends_client_new << "Factory(t, f)";
+    f_types_ << indent() << "return &" << serviceName << "Client";
+    f_types_ << "{c: bc.c, " << extends_field << ": bc}";
   } else {
+    f_types_ << indent() << "return &" << serviceName << "Client";
     indent_up();
     f_types_ << "{" << endl;
     f_types_ << indent() << "c: thrift.NewTStandardClient(f.GetProtocol(t), f.GetProtocol(t))," << endl;
@@ -1907,18 +1909,20 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   indent_down();
   f_types_ << indent() << "}" << endl << endl;
   // Legacy constructor function with custom input & output protocols
-  f_types_ << indent() << "// Deprecated: Use New" << serviceName << " instead" << endl;
+  f_types_ << indent() << "// Deprecated: Use New" << serviceName << "Client instead" << endl;
   f_types_
       << indent() << "func New" << serviceName
       << "ClientProtocol(t thrift.TTransport, iprot thrift.TProtocol, oprot thrift.TProtocol) *"
       << serviceName << "Client {" << endl;
   indent_up();
-  f_types_ << indent() << "return &" << serviceName << "Client";
 
   if (!extends.empty()) {
-    f_types_ << "{" << extends_field << ": " << extends_client_new << "Protocol(t, iprot, oprot)}"
+    f_types_ << "bc := " << extends_client_new << "Protocol(t, iprot, oprot)";
+    f_types_ << indent() << "return &" << serviceName << "Client";
+    f_types_ << "{c: bc.c, " << extends_field << ": bc}"
                << endl;
   } else {
+    f_types_ << indent() << "return &" << serviceName << "Client";
     indent_up();
     f_types_ << "{" << endl;
     f_types_ << indent() << "c: thrift.NewTStandardClient(iprot, oprot)," << endl;
