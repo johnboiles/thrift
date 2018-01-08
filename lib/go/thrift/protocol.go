@@ -20,9 +20,9 @@
 package thrift
 
 import (
+	"context"
 	"errors"
 	"fmt"
-	"context"
 )
 
 const (

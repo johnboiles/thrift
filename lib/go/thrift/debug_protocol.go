@@ -20,8 +20,8 @@
 package thrift
 
 import (
-	"log"
 	"context"
+	"log"
 )
 
 type TDebugProtocol struct {

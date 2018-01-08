@@ -21,9 +21,9 @@ package thrift
 
 import (
 	"compress/zlib"
+	"context"
 	"io"
 	"log"
-	"context"
 )
 
 // TZlibTransportFactory is a factory for TZlibTransport instances
