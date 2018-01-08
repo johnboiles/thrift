@@ -1894,9 +1894,9 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   indent_up();
 
   if (!extends.empty()) {
-    f_types_ << "bc := " << extends_client_new << "Factory(t, f)";
+    f_types_ << indent() <<  "bc := " << extends_client_new << "Factory(t, f)" << endl;
     f_types_ << indent() << "return &" << serviceName << "Client";
-    f_types_ << "{c: bc.c, " << extends_field << ": bc}";
+    f_types_ << "{c: bc.c, " << extends_field << ": bc}" << endl;
   } else {
     f_types_ << indent() << "return &" << serviceName << "Client";
     indent_up();
@@ -1917,10 +1917,9 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   indent_up();
 
   if (!extends.empty()) {
-    f_types_ << "bc := " << extends_client_new << "Protocol(t, iprot, oprot)";
+    f_types_ << indent() << "bc := " << extends_client_new << "Protocol(t, iprot, oprot)" << endl;
     f_types_ << indent() << "return &" << serviceName << "Client";
-    f_types_ << "{c: bc.c, " << extends_field << ": bc}"
-               << endl;
+    f_types_ << "{c: bc.c, " << extends_field << ": bc}" << endl;
   } else {
     f_types_ << indent() << "return &" << serviceName << "Client";
     indent_up();
