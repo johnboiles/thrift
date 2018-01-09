@@ -1878,9 +1878,10 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   f_types_ << indent() << "type " << serviceName << "Client struct {" << endl;
   indent_up();
 
-  f_types_ << indent() << "c thrift.TClient" << endl;
   if (!extends_client.empty()) {
     f_types_ << indent() << "*" << extends_client << endl;
+  } else {
+    f_types_ << indent() << "c thrift.TClient" << endl;
   }
 
   indent_down();
@@ -1892,13 +1893,11 @@ void t_go_generator::generate_service_client(t_service* tservice) {
              << "ClientFactory(t thrift.TTransport, f thrift.TProtocolFactory) *" << serviceName
              << "Client {" << endl;
   indent_up();
+  f_types_ << indent() << "return &" << serviceName << "Client";
 
   if (!extends.empty()) {
-    f_types_ << indent() <<  "bc := " << extends_client_new << "Factory(t, f)" << endl;
-    f_types_ << indent() << "return &" << serviceName << "Client";
-    f_types_ << "{c: bc.c, " << extends_field << ": bc}" << endl;
+    f_types_ << "{" << extends_field << ": " << extends_client_new << "Factory(t, f)}";
   } else {
-    f_types_ << indent() << "return &" << serviceName << "Client";
     indent_up();
     f_types_ << "{" << endl;
     f_types_ << indent() << "c: thrift.NewTStandardClient(f.GetProtocol(t), f.GetProtocol(t))," << endl;
@@ -1915,13 +1914,12 @@ void t_go_generator::generate_service_client(t_service* tservice) {
       << "ClientProtocol(t thrift.TTransport, iprot thrift.TProtocol, oprot thrift.TProtocol) *"
       << serviceName << "Client {" << endl;
   indent_up();
+  f_types_ << indent() << "return &" << serviceName << "Client";
 
   if (!extends.empty()) {
-    f_types_ << indent() << "bc := " << extends_client_new << "Protocol(t, iprot, oprot)" << endl;
-    f_types_ << indent() << "return &" << serviceName << "Client";
-    f_types_ << "{c: bc.c, " << extends_field << ": bc}" << endl;
+    f_types_ << "{" << extends_field << ": " << extends_client_new << "Protocol(t, iprot, oprot)}"
+               << endl;
   } else {
-    f_types_ << indent() << "return &" << serviceName << "Client";
     indent_up();
     f_types_ << "{" << endl;
     f_types_ << indent() << "c: thrift.NewTStandardClient(iprot, oprot)," << endl;
@@ -1939,9 +1937,10 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   f_types_ << indent() << "return &" << serviceName << "Client{" << endl;
 
   indent_up();
-  f_types_ << indent() << "c: c," << endl;
   if (!extends.empty()) {
     f_types_ << indent() << extends_field << ": " << extends_client_new << "(c)," << endl;
+  } else {
+    f_types_ << indent() << "c: c," << endl;
   }
   indent_down();
   f_types_ << indent() << "}" << endl;
