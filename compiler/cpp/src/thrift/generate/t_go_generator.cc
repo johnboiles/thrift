@@ -1948,6 +1948,14 @@ void t_go_generator::generate_service_client(t_service* tservice) {
   indent_down();
   f_types_ << indent() << "}" << endl << endl;
 
+  if (extends.empty()) {
+    f_types_ << indent() << "func (p *" << serviceName << "Client) Client_() thrift.TClient {" << endl;
+    indent_up();
+    f_types_ << indent() << "return p.c" << endl;
+    indent_down();
+    f_types_ << indent() << "}" << endl;
+  }
+
   // Generate client method implementations
   vector<t_function*> functions = tservice->get_functions();
   vector<t_function*>::const_iterator f_iter;
@@ -1977,7 +1985,7 @@ void t_go_generator::generate_service_client(t_service* tservice) {
       std::string resultName = tmp("_result");
       std::string resultType = publicize(method + "_result", true);
       f_types_ << indent() << "var " << resultName << " " << resultType << endl;
-      f_types_ << indent() << "if err = p.c.Call(ctx, \""
+      f_types_ << indent() << "if err = p.Client_().Call(ctx, \""
         << method << "\", &" << argsName << ", &" << resultName << "); err != nil {" << endl;
 
       indent_up();
@@ -2018,7 +2026,7 @@ void t_go_generator::generate_service_client(t_service* tservice) {
       }
     } else {
       // TODO: would be nice to not to duplicate the call generation
-      f_types_ << indent() << "if err := p.c.Call(ctx, \""
+      f_types_ << indent() << "if err := p.Client_().Call(ctx, \""
       << method << "\", &"<< argsName << ", nil); err != nil {" << endl;
 
       indent_up();
