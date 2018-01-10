@@ -2218,6 +2218,7 @@ void t_go_generator::generate_service_remote(t_service* tservice) {
   f_remote << indent() << "oprot := protocolFactory.GetProtocol(trans)" << endl;
   f_remote << indent() << "client := " << package_name_ << ".New" << publicize(service_name_)
            << "Client(thrift.NewTStandardClient(iprot, oprot))" << endl;
+  f_remote << indent() << "_ := client // Protect against unused errors" << endl;
   f_remote << indent() << "if err := trans.Open(); err != nil {" << endl;
   f_remote << indent() << "  fmt.Fprintln(os.Stderr, \"Error opening socket to \", "
                           "host, \":\", port, \" \", err)" << endl;
