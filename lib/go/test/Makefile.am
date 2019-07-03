@@ -45,7 +45,9 @@ gopath: $(THRIFT) $(THRIFTTEST) \
 				ConflictNamespaceTestC.thrift \
 				ConflictNamespaceTestD.thrift \
 				ConflictNamespaceTestSuperThing.thrift \
-				ConflictNamespaceServiceTest.thrift
+				ConflictNamespaceServiceTest.thrift \
+				TypedefNamespaceTestA.thrift \
+				TypedefNamespaceTestB.thrift
 	mkdir -p gopath/src
 	grep -v list.*map.*list.*map $(THRIFTTEST) | grep -v 'set<Insanity>' > ThriftTest.thrift
 	$(THRIFT) $(THRIFTARGS) -r IncludesTest.thrift
@@ -71,6 +73,8 @@ gopath: $(THRIFT) $(THRIFTTEST) \
 	$(THRIFT) $(THRIFTARGS) ConflictNamespaceTestD.thrift
 	$(THRIFT) $(THRIFTARGS) ConflictNamespaceTestSuperThing.thrift
 	$(THRIFT) $(THRIFTARGS) ConflictNamespaceServiceTest.thrift
+	$(THRIFT) $(THRIFTARGS) TypedefNamespaceTestA.thrift
+	$(THRIFT) $(THRIFTARGS) TypedefNamespaceTestB.thrift
 	GOPATH=`pwd`/gopath $(GO) get github.com/golang/mock/gomock || true
 	sed -i 's/\"context\"/\"golang.org\/x\/net\/context\"/g' gopath/src/github.com/golang/mock/gomock/controller.go || true
 	GOPATH=`pwd`/gopath $(GO) get github.com/golang/mock/gomock
@@ -93,7 +97,8 @@ check: gopath
 				ignoreinitialismstest \
 				unionbinarytest \
 				conflictnamespacetestsuperthing \
-				conflict/context/conflict_service-remote
+				conflict/context/conflict_service-remote \
+				typedefnamespacetestb
 	GOPATH=`pwd`/gopath $(GO) test thrift tests dontexportrwtest
 
 clean-local:
@@ -127,5 +132,7 @@ EXTRA_DIST = \
 	ConflictNamespaceTestB.thrift \
 	ConflictNamespaceTestC.thrift \
 	ConflictNamespaceTestD.thrift \
-	ConflictNamespaceTestSuperThing.thrift
-	ConflictNamespaceServiceTest.thrift
+	ConflictNamespaceTestSuperThing.thrift \
+	ConflictNamespaceServiceTest.thrift \
+	TypedefNamespaceTestA.thrift \
+	TypedefNamespaceTestB.thrift
